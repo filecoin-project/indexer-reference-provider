@@ -10,6 +10,7 @@ import (
 	"github.com/ipld/go-ipld-prime/codec/dagjson"
 	cidlink "github.com/ipld/go-ipld-prime/linking/cid"
 	"github.com/ipld/go-ipld-prime/node/basicnode"
+	"github.com/ipni/go-libipni/dagsync/ipnisync"
 	"github.com/ipni/go-libipni/ingest/schema"
 	provider "github.com/ipni/index-provider"
 	"github.com/libp2p/go-libp2p/core/peer"
@@ -36,6 +37,14 @@ func (e *Engine) mkLinkSystem() ipld.LinkSystem {
 		c := lnk.(cidlink.Link).Cid
 		log.Debugf("Triggered ReadOpener from engine's linksystem with cid (%s)", c)
 
+		cidSchemaType, err := ipnisync.CidSchemaFromCtx(ctx)
+		if err != nil {
+			log.Errorf("CID schema type hint error: %s", err)
+		}
+		if cidSchemaType != "" {
+			log.Infof("indexer requested %s", cidSchemaType)
+		}
+
 		// Get the node from main datastore. If it is in the
 		// main datastore it means it is an advertisement.
 		val, err := e.ds.Get(ctx, datastore.NewKey(c.String()))
@@ -52,12 +61,22 @@ func (e *Engine) mkLinkSystem() ipld.LinkSystem {
 				log.Errorf("Could not decode IPLD node for potential advertisement: %s", err)
 				return nil, err
 			}
+
 			// If this was an advertisement, then return it.
 			if isAdvertisement(n) {
+				if cidSchemaType != "" && cidSchemaType != ipnisync.CidSchemaAdvertisement {
+					log.Errorf("Retrieved advertisement when asked for %s", cidSchemaType)
+					return nil, errors.New("data does not match requested type")
+				}
 				log.Debugw("Retrieved advertisement from datastore", "cid", c, "size", len(val))
 				return bytes.NewBuffer(val), nil
 			}
 			log.Debugw("Retrieved non-advertisement object from datastore", "cid", c, "size", len(val))
+		}
+
+		if cidSchemaType != "" && cidSchemaType != ipnisync.CidSchemaEntryChunk {
+			log.Errorf("Asked for %s when expecting %s", cidSchemaType, ipnisync.CidSchemaEntryChunk)
+			return nil, errors.New("requested unexpected data type")
 		}
 
 		// Not an advertisement, so this means we are receiving ingestion data.

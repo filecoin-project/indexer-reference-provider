@@ -6,7 +6,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/ipfs/boxo v0.22.0
+	github.com/ipfs/boxo v0.23.0
 	github.com/ipfs/go-cid v0.4.1
 	github.com/ipfs/go-datastore v0.6.0
 	github.com/ipfs/go-ds-leveldb v0.5.0
@@ -17,8 +17,8 @@ require (
 	github.com/ipld/go-codec-dagpb v1.6.0
 	github.com/ipld/go-ipld-adl-hamt v0.0.0-20240322071803-376decb85801
 	github.com/ipld/go-ipld-prime v0.21.0
-	github.com/ipni/go-libipni v0.6.11
-	github.com/libp2p/go-libp2p v0.36.2
+	github.com/ipni/go-libipni v0.6.13
+	github.com/libp2p/go-libp2p v0.36.3
 	github.com/libp2p/go-libp2p-pubsub v0.12.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/multiformats/go-multiaddr v0.13.0
@@ -27,7 +27,7 @@ require (
 	github.com/prometheus/client_golang v1.20.0
 	github.com/rogpeppe/go-internal v1.12.0
 	github.com/stretchr/testify v1.9.0
-	github.com/urfave/cli/v2 v2.27.2
+	github.com/urfave/cli/v2 v2.27.4
 	go.opentelemetry.io/otel v1.28.0
 	go.opentelemetry.io/otel/exporters/prometheus v0.50.0
 	go.opentelemetry.io/otel/metric v1.28.0
@@ -178,7 +178,7 @@ require (
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 // indirect
 	github.com/twmb/murmur3 v1.1.6 // indirect
 	github.com/whyrusleeping/cbor v0.0.0-20171005072247-63513f603b11 // indirect
-	github.com/xrash/smetrics v0.0.0-20240312152122-5f08fbb34913 // indirect
+	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
 	go.opentelemetry.io/otel/sdk v1.28.0 // indirect
 	go.opentelemetry.io/otel/trace v1.28.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
