@@ -375,6 +375,22 @@ func WithRetrievalAddrs(addrs ...string) Option {
 	}
 }
 
+// WithRetrievalPeerID sets the peerID of where to get the content corresponding to an indexing advertisement.
+// If unspecified, the libp2p host peer ID are used.
+// See: WithHost
+func WithRetrievalPeerID(peerID string) Option {
+	return func(o *options) error {
+		if len(peerID) != 0 {
+			pId, err := peer.Decode(peerID)
+			if err != nil {
+				return fmt.Errorf("bad peer ID %q: %w", peerID, err)
+			}
+			o.provider.ID = pId
+		}
+		return nil
+	}
+}
+
 func WithSyncPolicy(syncPolicy *policy.Policy) Option {
 	return func(o *options) error {
 		o.syncPolicy = syncPolicy

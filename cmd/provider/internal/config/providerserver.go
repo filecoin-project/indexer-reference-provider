@@ -3,6 +3,9 @@ package config
 type ProviderServer struct {
 	// ListenMultiaddr is the multiaddr string for the node's listen address
 	ListenMultiaddr string
+	// RetrievalPeerID is the peer ID to advertise for data retrieval.
+	// Defaults to the provider's libp2p host peer ID.
+	RetrievalPeerID string
 	// RetrievalMultiaddrs are the addresses to advertise for data retrieval.
 	// Defaults to the provider's libp2p host listen addresses.
 	RetrievalMultiaddrs []string
